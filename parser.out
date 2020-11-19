@@ -1,0 +1,333 @@
+Created by PLY version 3.10 (http://www.dabeaz.com/ply)
+
+Grammar
+
+Rule 0     S' -> program
+Rule 1     program -> list_rules
+Rule 2     list_rules -> list_rules rule
+Rule 3     list_rules -> rule
+Rule 4     rule -> IF exp THEN list_statement
+Rule 5     list_statement -> list_statement COMA statement
+Rule 6     list_statement -> statement
+Rule 7     exp -> exp AND term
+Rule 8     exp -> exp OR term
+Rule 9     exp -> term
+Rule 10    term -> NOT term
+Rule 11    term -> OPAR exp CPAR
+Rule 12    term -> statement
+Rule 13    statement -> VAR IS ADJ
+
+Terminals, with rules where they appear
+
+ADJ                  : 13
+AND                  : 7
+COMA                 : 5
+CPAR                 : 11
+IF                   : 4
+IS                   : 13
+NOT                  : 10
+OPAR                 : 11
+OR                   : 8
+THEN                 : 4
+VAR                  : 13
+error                : 
+
+Nonterminals, with rules where they appear
+
+exp                  : 4 7 8 11
+list_rules           : 1 2
+list_statement       : 4 5
+program              : 0
+rule                 : 2 3
+statement            : 5 6 12
+term                 : 7 8 9 10
+
+Parsing method: LALR
+
+state 0
+
+    (0) S' -> . program
+    (1) program -> . list_rules
+    (2) list_rules -> . list_rules rule
+    (3) list_rules -> . rule
+    (4) rule -> . IF exp THEN list_statement
+
+    IF              shift and go to state 4
+
+    program                        shift and go to state 1
+    list_rules                     shift and go to state 2
+    rule                           shift and go to state 3
+
+state 1
+
+    (0) S' -> program .
+
+
+
+state 2
+
+    (1) program -> list_rules .
+    (2) list_rules -> list_rules . rule
+    (4) rule -> . IF exp THEN list_statement
+
+    $end            reduce using rule 1 (program -> list_rules .)
+    IF              shift and go to state 4
+
+    rule                           shift and go to state 5
+
+state 3
+
+    (3) list_rules -> rule .
+
+    IF              reduce using rule 3 (list_rules -> rule .)
+    $end            reduce using rule 3 (list_rules -> rule .)
+
+
+state 4
+
+    (4) rule -> IF . exp THEN list_statement
+    (7) exp -> . exp AND term
+    (8) exp -> . exp OR term
+    (9) exp -> . term
+    (10) term -> . NOT term
+    (11) term -> . OPAR exp CPAR
+    (12) term -> . statement
+    (13) statement -> . VAR IS ADJ
+
+    NOT             shift and go to state 8
+    OPAR            shift and go to state 9
+    VAR             shift and go to state 11
+
+    exp                            shift and go to state 6
+    term                           shift and go to state 7
+    statement                      shift and go to state 10
+
+state 5
+
+    (2) list_rules -> list_rules rule .
+
+    IF              reduce using rule 2 (list_rules -> list_rules rule .)
+    $end            reduce using rule 2 (list_rules -> list_rules rule .)
+
+
+state 6
+
+    (4) rule -> IF exp . THEN list_statement
+    (7) exp -> exp . AND term
+    (8) exp -> exp . OR term
+
+    THEN            shift and go to state 12
+    AND             shift and go to state 13
+    OR              shift and go to state 14
+
+
+state 7
+
+    (9) exp -> term .
+
+    THEN            reduce using rule 9 (exp -> term .)
+    AND             reduce using rule 9 (exp -> term .)
+    OR              reduce using rule 9 (exp -> term .)
+    CPAR            reduce using rule 9 (exp -> term .)
+
+
+state 8
+
+    (10) term -> NOT . term
+    (10) term -> . NOT term
+    (11) term -> . OPAR exp CPAR
+    (12) term -> . statement
+    (13) statement -> . VAR IS ADJ
+
+    NOT             shift and go to state 8
+    OPAR            shift and go to state 9
+    VAR             shift and go to state 11
+
+    term                           shift and go to state 15
+    statement                      shift and go to state 10
+
+state 9
+
+    (11) term -> OPAR . exp CPAR
+    (7) exp -> . exp AND term
+    (8) exp -> . exp OR term
+    (9) exp -> . term
+    (10) term -> . NOT term
+    (11) term -> . OPAR exp CPAR
+    (12) term -> . statement
+    (13) statement -> . VAR IS ADJ
+
+    NOT             shift and go to state 8
+    OPAR            shift and go to state 9
+    VAR             shift and go to state 11
+
+    exp                            shift and go to state 16
+    term                           shift and go to state 7
+    statement                      shift and go to state 10
+
+state 10
+
+    (12) term -> statement .
+
+    THEN            reduce using rule 12 (term -> statement .)
+    AND             reduce using rule 12 (term -> statement .)
+    OR              reduce using rule 12 (term -> statement .)
+    CPAR            reduce using rule 12 (term -> statement .)
+
+
+state 11
+
+    (13) statement -> VAR . IS ADJ
+
+    IS              shift and go to state 17
+
+
+state 12
+
+    (4) rule -> IF exp THEN . list_statement
+    (5) list_statement -> . list_statement COMA statement
+    (6) list_statement -> . statement
+    (13) statement -> . VAR IS ADJ
+
+    VAR             shift and go to state 11
+
+    list_statement                 shift and go to state 18
+    statement                      shift and go to state 19
+
+state 13
+
+    (7) exp -> exp AND . term
+    (10) term -> . NOT term
+    (11) term -> . OPAR exp CPAR
+    (12) term -> . statement
+    (13) statement -> . VAR IS ADJ
+
+    NOT             shift and go to state 8
+    OPAR            shift and go to state 9
+    VAR             shift and go to state 11
+
+    term                           shift and go to state 20
+    statement                      shift and go to state 10
+
+state 14
+
+    (8) exp -> exp OR . term
+    (10) term -> . NOT term
+    (11) term -> . OPAR exp CPAR
+    (12) term -> . statement
+    (13) statement -> . VAR IS ADJ
+
+    NOT             shift and go to state 8
+    OPAR            shift and go to state 9
+    VAR             shift and go to state 11
+
+    term                           shift and go to state 21
+    statement                      shift and go to state 10
+
+state 15
+
+    (10) term -> NOT term .
+
+    THEN            reduce using rule 10 (term -> NOT term .)
+    AND             reduce using rule 10 (term -> NOT term .)
+    OR              reduce using rule 10 (term -> NOT term .)
+    CPAR            reduce using rule 10 (term -> NOT term .)
+
+
+state 16
+
+    (11) term -> OPAR exp . CPAR
+    (7) exp -> exp . AND term
+    (8) exp -> exp . OR term
+
+    CPAR            shift and go to state 22
+    AND             shift and go to state 13
+    OR              shift and go to state 14
+
+
+state 17
+
+    (13) statement -> VAR IS . ADJ
+
+    ADJ             shift and go to state 23
+
+
+state 18
+
+    (4) rule -> IF exp THEN list_statement .
+    (5) list_statement -> list_statement . COMA statement
+
+    IF              reduce using rule 4 (rule -> IF exp THEN list_statement .)
+    $end            reduce using rule 4 (rule -> IF exp THEN list_statement .)
+    COMA            shift and go to state 24
+
+
+state 19
+
+    (6) list_statement -> statement .
+
+    COMA            reduce using rule 6 (list_statement -> statement .)
+    IF              reduce using rule 6 (list_statement -> statement .)
+    $end            reduce using rule 6 (list_statement -> statement .)
+
+
+state 20
+
+    (7) exp -> exp AND term .
+
+    THEN            reduce using rule 7 (exp -> exp AND term .)
+    AND             reduce using rule 7 (exp -> exp AND term .)
+    OR              reduce using rule 7 (exp -> exp AND term .)
+    CPAR            reduce using rule 7 (exp -> exp AND term .)
+
+
+state 21
+
+    (8) exp -> exp OR term .
+
+    THEN            reduce using rule 8 (exp -> exp OR term .)
+    AND             reduce using rule 8 (exp -> exp OR term .)
+    OR              reduce using rule 8 (exp -> exp OR term .)
+    CPAR            reduce using rule 8 (exp -> exp OR term .)
+
+
+state 22
+
+    (11) term -> OPAR exp CPAR .
+
+    THEN            reduce using rule 11 (term -> OPAR exp CPAR .)
+    AND             reduce using rule 11 (term -> OPAR exp CPAR .)
+    OR              reduce using rule 11 (term -> OPAR exp CPAR .)
+    CPAR            reduce using rule 11 (term -> OPAR exp CPAR .)
+
+
+state 23
+
+    (13) statement -> VAR IS ADJ .
+
+    THEN            reduce using rule 13 (statement -> VAR IS ADJ .)
+    AND             reduce using rule 13 (statement -> VAR IS ADJ .)
+    OR              reduce using rule 13 (statement -> VAR IS ADJ .)
+    CPAR            reduce using rule 13 (statement -> VAR IS ADJ .)
+    COMA            reduce using rule 13 (statement -> VAR IS ADJ .)
+    IF              reduce using rule 13 (statement -> VAR IS ADJ .)
+    $end            reduce using rule 13 (statement -> VAR IS ADJ .)
+
+
+state 24
+
+    (5) list_statement -> list_statement COMA . statement
+    (13) statement -> . VAR IS ADJ
+
+    VAR             shift and go to state 11
+
+    statement                      shift and go to state 25
+
+state 25
+
+    (5) list_statement -> list_statement COMA statement .
+
+    COMA            reduce using rule 5 (list_statement -> list_statement COMA statement .)
+    IF              reduce using rule 5 (list_statement -> list_statement COMA statement .)
+    $end            reduce using rule 5 (list_statement -> list_statement COMA statement .)
+

@@ -1,0 +1,3 @@
+IF Temperatura is caliente AND  Cielo is soleado then Accion is playa  
+IF Temperatura is normal AND Cielo is nublado then Accion is cine
+IF Temperatura is frio then Cielo is lluvioso
