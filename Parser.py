@@ -40,7 +40,7 @@ class RuleParser():
     
     def p_exp2 (self , p):
         'exp : exp OR term'
-        p[0] = AndNode(p[1], p[3])
+        p[0] = ORNode(p[1], p[3])
     
     def p_exp3 (self, p):
         'exp : term'

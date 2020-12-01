@@ -14,20 +14,23 @@ class BinaryNode(ExprNode):
     
 class AndNode(BinaryNode):
     def evaluate(self, var, adjs):
-        return min(self.right.evaluate( var , adjs), self.left.evaluate(var, adjs))
+        eva  = min(self.right.evaluate( var , adjs), self.left.evaluate(var, adjs))
+        return eva
 
 class ORNode(BinaryNode):
     def evaluate(self, var, adjs):
-        return max(self.right.evaluate(var, adjs), self.left.evaluate(var, adjs))
+        eva=  max(self.right.evaluate(var, adjs), self.left.evaluate(var, adjs))
+        return eva
 
 class UnaryNode(ExprNode):
     def __init__(self,expr):
         self.expr = expr
 
-    def evaluate(self, var , adjs):
-        return 1 - self.expr.evaluate(var,adjs)
+    
 class NotNode(UnaryNode):
-    pass
+    def evaluate(self, var , adjs):
+        eva = 1 - self.expr.evaluate(var,adjs)
+        return eva
 
 class Statement(ExprNode):
     def __init__(self,var, adj):
@@ -35,8 +38,8 @@ class Statement(ExprNode):
         self.adj = adj
     
     def evaluate(self , vars , values):
-        return vars[self.var][self.adj](values[self.var])
-        
+        eva = vars[self.var][self.adj](values[self.var])
+        return eva
         
 class RuleNode(Node):
     def __init__(self,antecedent,consequent):

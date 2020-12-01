@@ -27,30 +27,45 @@ if len(errors_parser) > 0:
         print(error)
         exit(1)
 
+
 temperatura = LinguisticVar('Temperatura',
-                                    frio=TriangularFuzzyNumber(10, 15, 20),
-                                    normal=TriangularFuzzyNumber(15, 21, 25), 
-                                    caliente=TriangularFuzzyNumber(20, 25, 30))
+                                     frio=TrapezoidalFuzzyNumber(0, 0, 10,25),
+                                    normal=TriangularFuzzyNumber(15, 25, 30), 
+                                    caliente=TrapezoidalFuzzyNumber(25, 30, 40,40))
 
-cielo = LinguisticVar('Cielo',
-                                    soleado=TriangularFuzzyNumber(0, 10, 20),
-                                    nublado=TriangularFuzzyNumber(10, 20, 30),
-                                    lluvioso =  TriangularFuzzyNumber(20,30,40)
+humedad = LinguisticVar('Humedad',
+                                    baja=TrapezoidalFuzzyNumber(0, 0, 40,50),
+                                    regular=TriangularFuzzyNumber(40, 55, 70),
+                                    alta =  TrapezoidalFuzzyNumber(60,70,100,100)
                                   )
 
-action = LinguisticVar('Accion',
-                                    casa=TriangularFuzzyNumber(0, 50, 100),
-                                    cine=TriangularFuzzyNumber(50,100 ,150),
-                                    playa = TriangularFuzzyNumber(100,150,200)
+viento = LinguisticVar('Viento',
+                                    calmado =TrapezoidalFuzzyNumber(0,0, 10, 20),
+                                    moderado =TrapezoidalFuzzyNumber(10,20,40 ,50),
+                                    intenso = TrapezoidalFuzzyNumber(40,50,100,100)
                                   )
 
+sensacion = LinguisticVar('Sensacion',
+                                    frio=TrapezoidalFuzzyNumber(0, 0, 10,25),
+                                    normal=TriangularFuzzyNumber(15, 25, 30), 
+                                    caliente=TrapezoidalFuzzyNumber(25, 30, 40,40))
 
-syst = FuzzySystem(rules,[temperatura,cielo],[action, cielo]) 
-a = syst.mamdani_inference({"Temperatura":15, "Cielo":17})
+syst = FuzzySystem(rules,[temperatura,humedad,viento],[sensacion]) 
+a = syst.mamdani_inference({"Temperatura":23, "Humedad":95, "Viento":15})
+b = syst.larsen_inference({"Temperatura":23, "Humedad":95, "Viento":15})
 
 
-t = np.arange(-0. , 200., 0.2)
-k = [a['Accion'](x) for x in t]   
-plt.plot(t,k, 'r--')
-plt.show()
-exit()
+print("Mamdani y MOM")
+print(syst.defuzzication_mom(a['Sensacion'], 'Sensacion',2.1))
+print("Mamdani y COA")
+print(syst.defuzzication_coa(a['Sensacion'], 'Sensacion',2.1))
+print("Mamdani y BOA")
+print(syst.defuzzication_boa(a['Sensacion'], 'Sensacion',2.1))
+
+print("Larsen y MOM")
+print(syst.defuzzication_mom(b['Sensacion'], 'Sensacion',2.1))
+print("Larsen y COA")
+print(syst.defuzzication_coa(b['Sensacion'], 'Sensacion',2.1))
+print("Larsen y BOA")
+print(syst.defuzzication_boa(b['Sensacion'], 'Sensacion',2.1))
+

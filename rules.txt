@@ -1,3 +1,7 @@
-IF Temperatura is caliente AND  Cielo is soleado then Accion is playa  
-IF Temperatura is normal AND Cielo is nublado then Accion is cine
-IF Temperatura is frio then Cielo is lluvioso
+IF Temperatura is frio AND  Humedad  is baja and Viento is calmado  then Sensacion is frio  
+IF Temperatura is frio and Humedad is alta AND Viento is calmado then Sensacion is normal
+if Temperatura is normal and Humedad is regular and Viento is calmado then Sensacion is normal
+if Temperatura is normal and Humedad is alta  and NOt Viento is intenso then Sensacion is caliente
+IF Temperatura is normal and (Viento is intenso or Viento is moderado) then Sensacion is frio
+IF Temperatura is caliente and Viento is intenso then Sensacion is normal
+if Temperatura is caliente AND (Viento is moderado or Viento is calmado) then Sensacion is caliente

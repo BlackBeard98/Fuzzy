@@ -1,0 +1,117 @@
+\documentclass[]{article}
+\usepackage{amsmath, amsthm, amsfonts}
+\usepackage{graphics}
+\usepackage{float}
+\usepackage{epsfig}
+\usepackage{amssymb}
+\usepackage{dsfont}
+\usepackage{latexsym}
+\usepackage{newlfont}
+\usepackage{epstopdf}
+\usepackage{amsthm}
+\usepackage{epsfig}
+\usepackage{caption}
+\usepackage{multirow}
+\usepackage[pdftex,breaklinks,colorlinks,linkcolor=black,citecolor=blue,urlcolor=blue]{hyperref}
+\usepackage[x11names,table]{xcolor}
+\usepackage{graphics}
+\usepackage{wrapfig}
+\usepackage[rflt]{floatflt}
+\usepackage{multicol}
+\usepackage{listings} \lstset {language = C++, basicstyle=\bfseries\ttfamily, keywordstyle = \color{blue}, commentstyle = \bf\color{green}}
+\usepackage{tikz}
+\usepackage{enumitem}
+
+\newcommand
+*
+{\itembolasazules}[1]{% bolas 3D
+	\footnotesize\protect\tikz[baseline=-3pt]%
+	\protect\node[scale=.5, circle, shade, ball
+	color=blue]{\color{white}\Large\bf#1};}
+%opening
+\title{Proyecto de L\'ogica Difusa}
+\author{Karl Lewis Sosa Justiz}
+
+\begin{document}
+
+\begin{figure}
+	\maketitle
+	\hspace{3,5cm} \includegraphics[width=5cm]{images/índice.jpg} 
+\end{figure}
+
+
+\clearpage
+\tableofcontents
+\newpage
+\section{Propuesta de Problema}
+Se quiere obtener la sensaci\'on t\'ermica en las personas tomando en cuenta la temperatura, la velocidad del viento y la humedad.
+\section{Caracter\'isticas del Sistema De inferencia propuesto}
+\subsection{Variables }
+
+\begin{enumerate}
+	\item Temperatura(en grados Celsius) que se clasifica:
+	\begin{enumerate}
+		\item frio (TrapezoidalFuzzyNumber(0, 0, 10,25))
+		\item normal (TriangularFuzzyNumber(15, 25, 30))
+		\item caliente (TrapezoidalFuzzyNumber(25, 30, 40,400))
+	\end{enumerate}
+	\item Humedad (Humedad Relativa)  que se clasifica:
+	\begin{enumerate}
+		\item baja (TrapezoidalFuzzyNumber(0, 0, 40,50))
+		\item regular (TriangularFuzzyNumber(40, 55, 70))
+		\item caliente (TrapezoidalFuzzyNumber(60, 70, 100,100))
+	\end{enumerate}
+	\item Viento (Velocidad del viento en KM/H)
+		\begin{enumerate}
+			\item baja (TrapezoidalFuzzyNumber(0, 0, 40,50))
+			\item regular (TriangularFuzzyNumber(40, 55, 70))
+			\item caliente (TrapezoidalFuzzyNumber(60, 70, 100,100))
+		\end{enumerate}
+		\item Sensacion(en grados Celsius) que se clasifica:
+		\begin{enumerate}
+			\item frio (TrapezoidalFuzzyNumber(0, 0, 10,25))
+			\item normal (TriangularFuzzyNumber(15, 25, 30))
+			\item caliente (TrapezoidalFuzzyNumber(25, 30, 40,400))
+		\end{enumerate}
+\end{enumerate}
+
+\section{Reglas}
+Son cargadas del archivo rules.txt y siguen la gram\'atica:
+\subsection{Gram\'atica}
+ program : list\_rules \newline   
+ list\_rules : list\_rules rule \newline
+ list\_rules : rule \newline
+ rule : IF exp THEN list\_statement \newline
+ list\_statement : list\_statement COMA statement \newline
+ list\_statement : statement \newline
+ exp : exp AND term \newline
+ exp : exp OR term \newline
+ exp : term \newline
+ term : NOT term \newline
+ term : OPAR exp CPAR \newline
+ term : statement \newline
+ statement : VAR IS ADJ
+\subsection{Reglas del problema}
+\begin{enumerate}
+	\item IF Temperatura is frio AND  Humedad  is baja and Viento is calmado  then Sensacion is frio  
+	\item IF Temperatura is frio and Humedad is alta AND Viento is calmado then Sensacion is normal
+	\item if Temperatura is normal and Humedad is regular and Viento is calmado then Sensacion is normal
+	\item if Temperatura is normal and Humedad is alta  and NOt Viento is intenso then Sensacion is caliente
+	\item IF Temperatura is normal and (Viento is intenso or Viento is moderado) then Sensacion is frio
+	\item IF Temperatura is caliente and Viento is intenso then Sensacion is normal
+	\item If Temperatura is caliente AND (Viento is moderado or Viento is calmado) then Sensacion is caliente
+\end{enumerate}
+\section{Principales ideas seguidas para la implementaci\'on}
+
+
+\textbf{RuleLexer:} Utilizado para tokenizar las reglas. \newline
+\textbf{RuleParser:} Utilizado para parsear las reglas.  \newline
+\textbf{LinguisticVar:} Forma gen\'erica para las variables que contiene tanto las categor\'ias como las funciones de pertenencia asociadas.\newline
+\textbf{membership\_functions} Formas de representar las funciones de pertenencia triangular y trapezoidal.\newline
+\textbf{FuzzySystem} Grueso de la implementaci\'on que contiene tanto como los m\'eto dos de agregaci\'on  (Mamdani, Larsen) desdifusificaci\'on. \newline
+(Centroide, Bisecci\'on y Media de Ma\'ximos).\newline
+\section{Requisitos}
+Es necesario instalar ply en python, se encuentra en requirements.txt, en otro caso siempre se pueden armar las reglas a mano =(.
+\section{Consideraciones}
+Los Sistema de Inferencia Difusa, en particular el implementado, permite la soluci\'on de problemas a un nivel m\'as cercano al razonamiento humano lo cual es una mejor\'ia enorme, adema\'as permiten ir mejorando el conjunto de reglas para ir logrando cada vez mejores y m\'as reales resultados, de una manera m\'as sencilla e intuitiva. En el problema particular es com\'un encontrar tablas que dan resultados similares pero de esta forma se puede ajustar seg\'un la persona y de esta forma ser a\'un m\'as precisos a la hora de obtener pron\'osticos o por ejemplo que vestir seg\'un estos datos.  
+\end{document}}
