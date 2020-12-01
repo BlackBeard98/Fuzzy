@@ -1,4 +1,4 @@
 # Fuzzy
 Sistema de inferencia difusa
 Proyecto de Simulacion 4to CC
-Karl Lewis Sosa
+Karl Lewis Sosa C-412
